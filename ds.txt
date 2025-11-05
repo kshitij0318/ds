@@ -1,0 +1,568 @@
+﻿EXPERIMENT 1
+5+3
+10-3
+10/5
+5*5
+
+
+a=5
+b=3
+
+
+sum_result = a-b
+sub_result = a -b
+mul_result = a *b
+div_result <- a / b
+
+
+print (sum_result)
+print(sub_result)
+print(mul_result)
+print(div_result)
+sqrt(16)
+log(100)
+exp(2)
+
+
+add <- function(x, y){
+  return (x+y)
+}
+sub <- function(x,y){
+  return (x-y)
+}
+mul <- function(x,y){ return (x*y)}
+div <- function(x,y){
+  return (x/y)
+}
+mod <- function(x, y){
+  return (x %% y)
+}
+square <- function(x){
+  return (x^2)
+}
+cube <- function(x){
+  return (x^3)
+}
+print(add(a,b))
+print(sub(a,b))
+print(mul(a,b))
+print(div(a,b))
+print(mod(a,b))
+print(square(a))
+print(cube(a))
+print(a==b)
+
+
+
+
+EXPERIMENT 2
+library(readxl)
+mall_customers <- read_excel("Mall Customers.xlsx")
+
+
+# Assuming the data is already loaded as 'mall_customers'
+summary(mall_customers)
+
+
+# Dimensions of the dataset
+dim(mall_customers)
+
+
+# Quantiles for Annual Income
+quantile(mall_customers$`Annual Income (k$)`)
+
+
+# Mean and median of Annual Income
+mean(mall_customers$`Annual Income (k$)`)
+median(mall_customers$`Annual Income (k$)`)
+
+
+# Frequency table for Annual Income
+table(mall_customers$`Annual Income (k$)`)
+
+
+# Structure of the dataset
+str(mall_customers)
+
+
+# Quantiles for Spending Score
+quantile(mall_customers$`Spending Score (1-100)`)
+
+
+# Subset of customers with Annual Income greater than 50
+customers_subset <- subset(mall_customers, `Annual Income (k$)` > 50)
+print(customers_subset)
+
+
+# Aggregate mean of numeric columns by Gender
+aggregate(cbind(`Annual Income (k$)`, `Spending Score (1-100)`) ~ Gender, data = mall_customers, mean)
+
+
+EXPERIMENT 3
+# === LAB: Reading Excel, CSV, and XML Files ===
+
+
+# Install & Load Required Packages
+install.packages(c("readxl", "xml2", "XML"))
+library(readxl)
+library(xml2)
+library(XML)
+
+
+# === Excel Section ===
+
+
+# Read Excel Files
+Mall_Customers <- read_excel("Mall Customers.xlsx")
+Supply_Chain <- read_excel("supply_chain.xlsx")
+
+
+# Read Specific Sheets
+sheet2 <- read_excel("Mall Customers.xlsx", sheet = "test1")
+sheet3 <- read_excel("Mall Customers.xlsx", sheet = 3)
+
+
+head(sheet2)
+head(sheet3)
+
+
+# Data Info
+cat("Is 'Mall_Customers' a data frame? →", is.data.frame(Mall_Customers), "\n")
+cat("Columns:", ncol(Mall_Customers), "\nRows:", nrow(Mall_Customers), "\n")
+
+
+# Product with Maximum Revenue
+max_revenue <- Supply_Chain[which.max(Supply_Chain$`Revenue generated`), ]
+cat("Product with Maximum Revenue Generated:\n")
+print(max_revenue)
+
+
+# Summary & Structure
+head(Supply_Chain)
+summary(Supply_Chain)
+str(Supply_Chain)
+colnames(Supply_Chain)
+dim(Supply_Chain)
+
+
+# === CSV Section ===
+LoanTrain_csv <- read.csv("loan-train.csv")
+head(LoanTrain_csv)
+
+
+# === XML Section ===
+xml_data <- read_xml("sample.xml")
+parsed_xml <- xmlParse(file = "sample.xml")
+print(parsed_xml)
+
+
+EXPERIMENT 4
+# Install and load required packages
+install.packages(c("ggplot2", "readxl"))
+library(ggplot2)
+library(readxl)
+
+
+# Load dataset
+data <- read_excel("Mall Customers.xlsx", sheet = "Sheet1")
+
+
+# --- (a) Box Plots & Scatter Plots ---
+boxplot(data$Age, data$`Annual Income (k$)`, data$`Spending Score (1-100)`,
+        names = c("Age", "Income", "Spending"),
+        main = "Boxplots of Customer Features",
+        col = c("lightblue", "lightgreen", "lightpink"))
+
+
+plot(data$Age, data$`Spending Score (1-100)`,
+     main = "Age vs Spending Score",
+     xlab = "Age", ylab = "Spending Score",
+     col = "blue", pch = 19)
+
+
+plot(data$`Annual Income (k$)`, data$`Spending Score (1-100)`,
+     main = "Income vs Spending Score",
+     xlab = "Annual Income (k$)", ylab = "Spending Score",
+     col = "darkgreen", pch = 19)
+
+
+# --- (b) Outlier Detection ---
+boxplot(data$`Annual Income (k$)`, main = "Outliers in Annual Income", col = "orange")
+boxplot(data$`Spending Score (1-100)`, main = "Outliers in Spending Score", col = "purple")
+
+
+# --- (c) Histogram, Bar Chart & Pie Chart ---
+hist(data$Age, main = "Age Distribution", xlab = "Age",
+     col = "lightblue", border = "black")
+
+
+barplot(table(data$`Marital Status`),
+        main = "Marital Status Distribution",
+        col = c("tomato", "skyblue", "lightgreen"),
+        ylab = "Count")
+
+
+gender_count <- table(data$Gender)
+pie(gender_count, labels = paste(names(gender_count), gender_count),
+    main = "Gender Distribution",
+    col = c("pink", "lightblue"))
+
+
+EXPERIMENT 5
+# Install and load required packages
+install.packages(c("corrplot", "readxl", "ggplot2"))
+library(corrplot)
+library(readxl)
+library(ggplot2)
+
+
+# --- IRIS DATASET ANALYSIS ---
+
+
+data(iris)
+iris_numeric <- iris[, 1:4]
+cor_matrix <- cor(iris_numeric)
+print(cor_matrix)
+
+
+corrplot(cor_matrix, method = "color", type = "upper",
+         tl.col = "black", tl.srt = 45, 
+         addCoef.col = "black", number.cex = 0.7)
+
+
+ancova_model <- aov(Sepal.Length ~ Species + Sepal.Width, data = iris)
+summary(ancova_model)
+
+
+
+
+# --- SUPPLY CHAIN DATASET ANALYSIS ---
+
+
+data <- read_excel("supply_chain.xlsx", sheet = "supply_chain")
+head(data)
+str(data)
+
+
+model <- lm(`Revenue generated` ~ Price, data = data)
+summary(model)
+
+
+data$Predicted <- predict(model, data)
+data$Residuals <- data$`Revenue generated` - data$Predicted
+
+
+head(data[, c("Revenue generated", "Predicted", "Residuals")])
+
+
+ggplot(data, aes(x = Price, y = `Revenue generated`)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(title = "Linear Regression: Revenue generated vs Price",
+       x = "Price", y = "Revenue generated")
+
+
+EXPERIMENT 6
+# --- Sampling, Covariance, Correlation, Deviation & Regression ---
+
+
+library(caTools)
+library(ggplot2)
+
+
+data <- read.csv(
+  "https://raw.githubusercontent.com/IBM/telco-customer-churn-on-icp4d/master/data/Telco-Customer-Churn.csv",
+  stringsAsFactors = FALSE
+)
+
+
+# Split data into training (70%) and testing (30%)
+set.seed(123)
+split <- sample.split(data$Churn, SplitRatio = 0.7)
+train <- subset(data, split == TRUE)
+test  <- subset(data, split == FALSE)
+
+
+cat("Training set size:", nrow(train), "\n")
+cat("Testing set size:", nrow(test), "\n")
+
+
+# Select numeric columns
+num_data <- data[, sapply(data, is.numeric)]
+
+
+# Covariance and Correlation
+cat("Covariance Matrix:\n")
+print(cov(num_data, use = "complete.obs"))
+
+
+cat("Correlation Matrix:\n")
+print(cor(num_data, use = "complete.obs"))
+
+
+# Mean & Deviation of MonthlyCharges
+data$Mean_Charge <- mean(data$MonthlyCharges, na.rm = TRUE)
+data$Deviation <- data$MonthlyCharges - data$Mean_Charge
+head(data[, c("MonthlyCharges", "Mean_Charge", "Deviation")])
+
+
+# Linear Regression: MonthlyCharges vs Tenure
+model <- lm(MonthlyCharges ~ tenure, data = data)
+summary(model)
+
+
+# Visualization
+ggplot(data, aes(x = tenure, y = MonthlyCharges)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = "Regression: MonthlyCharges vs Tenure",
+       x = "Tenure (Months)", y = "Monthly Charges ($)")
+
+
+XXXXXXXXXXXXXXXXXXXXXXXX
+
+
+# --- Logistic Regression on Iris Dataset (Simple Version) ---
+
+
+data <- read.csv("https://raw.githubusercontent.com/uiuc-cse/data-fa14/gh-pages/data/iris.csv")
+
+
+# Convert to binary classification: Setosa (1) vs Non-Setosa (0)
+data$BinarySpecies <- ifelse(data$species == "setosa", 1, 0)
+
+
+# Logistic Regression using only petal_length
+model <- glm(BinarySpecies ~ petal_length, data = data, family = "binomial")
+
+
+# Show model summary
+summary(model)
+
+
+# Predict probabilities
+data$Predicted <- predict(model, data, type = "response")
+
+
+# Compute MAE and MSE
+mae <- mean(abs(data$BinarySpecies - data$Predicted))
+mse <- mean((data$BinarySpecies - data$Predicted)^2)
+
+
+cat("MAE:", round(mae, 4), "\n")
+cat("MSE:", round(mse, 4), "\n")
+
+
+# Model fit check
+cat("Null Deviance:", model$null.deviance, "\n")
+cat("Residual Deviance:", model$deviance, "\n")
+
+
+XXXXXXXXXXXXXXXXXXXXXXXX
+
+
+# --- Logistic Regression (Simple Version) ---
+
+
+data <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+
+
+# Train logistic regression model
+model <- glm(admit ~ gre + gpa + rank, data = data, family = "binomial")
+
+
+# View summary
+summary(model)
+
+
+# Predict probabilities of admission
+data$Predicted <- predict(model, data, type = "response")
+
+
+# Convert probabilities to 1 (admit) or 0 (reject)
+data$Predicted_Class <- ifelse(data$Predicted > 0.5, 1, 0)
+
+
+# Check accuracy
+mean(data$Predicted_Class == data$admit)
+
+
+EXPERIMENT 7
+# --- Multiple Regression (Simple Version) ---
+data <- read.csv("supply_chain.csv")
+
+
+# Train the model
+model <- lm(Revenue.generated ~ Price + Manufacturing.costs, data = data)
+
+
+# See summary
+summary(model)
+
+
+# Predictions
+data$Predicted <- predict(model, data)
+
+
+# Calculate errors
+data$Residuals <- data$Revenue.generated - data$Predicted
+mean(abs(data$Residuals))     # MAE
+mean((data$Residuals)^2)      # MSE
+sqrt(mean((data$Residuals)^2)) # RMSE
+
+
+# Plot actual vs predicted
+plot(data$Revenue.generated, data$Predicted,
+     main="Actual vs Predicted Revenue",
+     xlab="Actual", ylab="Predicted", col="blue", pch=16)
+abline(0, 1, col="red")
+
+
+EXPERIMENT 8
+# DS LAB - Multiple Regression & Evaluation 
+# Dataset: supply_chain.csv
+install.packages(c("ggplot2", "dplyr", "caret"))
+library(ggplot2)
+library(dplyr)
+library(caret)
+
+
+data <- read.csv("supply_chain.csv")
+data <- na.omit(data)
+
+
+model <- lm(Revenue.generated ~ Price + Manufacturing.costs, data = data)
+summary(model)
+
+
+data$Predicted <- predict(model, data)
+data$Residuals <- data$Revenue.generated - data$Predicted
+
+
+r_squared <- summary(model)$r.squared
+mae <- mean(abs(data$Residuals))
+rmse <- sqrt(mean(data$Residuals^2))
+
+
+cat("--- Model Performance ---\n")
+cat("R-squared:", round(r_squared, 3), "\n")
+cat("MAE:", round(mae, 3), "\n")
+cat("RMSE:", round(rmse, 3), "\n\n")
+
+
+ggplot(data, aes(x = Revenue.generated, y = Predicted)) +
+  geom_point(color = "blue") +
+  geom_abline(slope = 1, intercept = 0, color = "red") +
+  labs(title = "Actual vs Predicted Revenue", x = "Actual", y = "Predicted")
+
+
+ggplot(data, aes(x = Predicted, y = Residuals)) +
+  geom_point(color = "darkgreen") +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
+  labs(title = "Residual Plot", x = "Predicted", y = "Residuals")
+
+
+EXPERIMENT 9
+## --- Decision Tree ---
+# Dataset: supply_chain.csv
+install.packages(c("rpart", "rpart.plot", "caret"))
+library(rpart)
+library(rpart.plot)
+library(caret)
+
+
+data <- read.csv("supply_chain.csv")
+data <- na.omit(data)
+
+
+threshold <- median(data$Revenue.generated)
+data$RevenueClass <- ifelse(data$Revenue.generated > threshold, "High", "Low")
+
+
+set.seed(123)
+trainIndex <- createDataPartition(data$RevenueClass, p = 0.8, list = FALSE)
+train <- data[trainIndex, ]
+test  <- data[-trainIndex, ]
+
+
+model <- rpart(RevenueClass ~ Price + Manufacturing.costs, data = train, method = "class")
+
+
+pred <- predict(model, test, type = "class")
+confusionMatrix(as.factor(pred), as.factor(test$RevenueClass))
+
+
+rpart.plot(model, main = "Decision Tree for Revenue Prediction")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EXPERIMENT 10
+# --- Simple K-Means & Hierarchical Clustering ---
+# Dataset: supply_chain.csv
+# Install & load libraries (only once)
+install.packages("factoextra")
+library(factoextra)
+# Read and clean data
+data <- read.csv("supply_chain.csv")
+data <- na.omit(data)
+
+
+# Select numeric columns for clustering
+num_data <- data[, c("Price", "Manufacturing.costs", "Revenue.generated")]
+
+
+# 1️⃣ K-MEANS CLUSTERING
+# Find best number of clusters using Elbow Method
+fviz_nbclust(num_data, kmeans, method = "wss")
+
+
+# Apply K-means with 3 clusters
+set.seed(123)
+k3 <- kmeans(num_data, centers = 3)
+
+
+# Visualize clusters
+fviz_cluster(k3, data = num_data)
+
+
+# Add cluster labels to original data
+data$KMeans_Cluster <- k3$cluster
+
+
+# Show average values in each cluster
+aggregate(num_data, by = list(Cluster = k3$cluster), FUN = mean)
+
+
+# 2️⃣ HIERARCHICAL CLUSTERING
+
+
+# Compute distance and clustering
+dist_matrix <- dist(num_data)
+hc <- hclust(dist_matrix, method = "ward.D2")
+
+
+# Plot dendrogram
+plot(hc, main = "Hierarchical Clustering Dendrogram")
+rect.hclust(hc, k = 3, border = "red")
+
+
+# Assign cluster numbers
+data$HC_Cluster <- cutree(hc, k = 3)
+
+
+# Show average values in each cluster
+aggregate(num_data, by = list(Cluster = data$HC_Cluster), FUN = mean)
+
+
+head(data)
